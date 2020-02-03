@@ -7,15 +7,27 @@ if exists("g:loaded_pikdir")
 endif
 let g:loaded_pikdir = 1
 
-function MyDialogH(id, result)
-	if a:result
-		echo "sweet"	
+function ShowFiles(dir)
+	let g:files = split(globpath(a:dir, '*'), '\n')
+	:call add(g:files, '..')
+	:call popup_dialog(g:files, #{
+		\ filter: 'popup_filter_menu',
+		\ callback: 'HandleChoice',
+		\ })
+endfunc
+
+function HandleChoice(id, choice)
+	let f = g:files[a:choice-1]
+	let isDir = isdirectory(f)
+	if isDir
+		:call ShowFiles(f)
+	else
+		execute "vsplit" f
 	endif
 endfunc
 
-if !hasmapto('<Plug>pikdir')
-	nnoremap <C-n> :call popup_dialog('hello, world', #{
-				\ filter: 'popup_filter_yesno',
-				\ callback: 'MyDialogH',
-				\ })<CR>
+nnoremap <Plug>pikDir :call ShowFiles(".")<CR>
+
+if !hasmapto('<Plug>pikDir')
+	map <C-n> <Plug>pikDir
 endif
