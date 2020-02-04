@@ -1,0 +1,18 @@
+# pikdir - A popup directory viewer for Vim
+
+### Installation
+
+Place 'pikdir.vim' in your Vim plugins directory, or use a plugin manager like Vundle or Pathogen.
+
+### Usage
+
+By default, this plugin binds its functionality to Ctrl-n (or <C-n>), but it can be customized by setting a different mapping to '<Plug>pikDir' in your .vimrc file. 
+
+Pressing Ctrl-n will bring up a popup window with the file listing for the current directory. You navigate the window with the j and k movement keys, and pressing enter will open the selected file in a vertical split or, if the selected item is a directory, it will show the file listing for the directory. To close the popup without selecting anything, press Esc.
+
+### Customization
+
+If you would rather the file selected be opened in a different manner (e.g. a horizontal split, in the same buffer, etc.), search for 'vsplit' in 'pikdir.vim' and replace it with your preferred choice. For example, to set it to open files in a horizontal split, open up 'pikdir.vim' and type :s/vsplit/split/g
+
+This plugin assumes you want to keep working from the directory you started in, so it resets your working directory to your starting one even if you open a file in another directory. If you'd like to change your working directory when you open a file in a different directory, remove the line 'execute "cd" g:pikdirStartDir' from the
+HandleChoice function.
